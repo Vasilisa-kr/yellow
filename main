@@ -1,17 +1,15 @@
 import sys
 
-from PyQt5.QtGui import QPainter, QColor, QPolygon
-from PyQt5.QtWidgets import QWidget, QApplication
-from PyQt5.QtCore import Qt, QPoint
-from PyQt5 import uic
+from PyQt5.QtGui import QPainter, QColor
+from UI import Ui_MainWindow
 from PyQt5.QtWidgets import QApplication, QMainWindow
 import random
 
 
-class MWidget(QMainWindow):
+class MyWidget(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('UI.ui', self)
+        self.setupUi(self)
         self.pushButton.clicked.connect(self.run)
         self.do_paint = False
 
@@ -32,7 +30,8 @@ class MWidget(QMainWindow):
 
     def draw_flag(self, qp):
         r = random.randrange(20, 440)
-        color = QColor(230, 230, 138)
+        color = QColor(random.randrange(0, 256), random.randrange(0, 256),
+                       random.randrange(0, 256))
         x = int(450)
         y = int(300)
         qp.setBrush(color)
@@ -45,7 +44,7 @@ def except_hook(cls, exception, traceback):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    form = MWidget()
+    form = MyWidget()
     form.show()
     sys.excepthook = except_hook
     sys.exit(app.exec())
